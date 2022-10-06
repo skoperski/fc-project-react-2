@@ -1,46 +1,32 @@
 import { fetchApi } from "../services/NBPapi";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export const Currencies = () => {
   const [list, setList] = useState();
-  const [currency, setCurrency] = useState();
-  const [filtered, setFiltered] = useState();
   const [input, setInput] = useState();
-  const [calc, setCalc] = useState();
+  const [fixed, setFixed] = useState();
 
   useEffect(() => {
     fetchApi().then((response) => {
       const currencyList = response.data[0].rates;
-      console.log(currencyList);
       setList(currencyList);
+      setFixed(0);
     });
   }, []);
+  const selectRef = useRef("");
 
   const handleClick = () => {
     const filteredList = list.filter((el) => {
-      el.code === currency;
-      setFiltered(filteredList);
+      return el.code === selectRef.current.value;
     });
-    const calcResult = filtered * input;
-    setCalc(calcResult);
-    console.log(list);
+    const calcResult = filteredList[0].mid * input;
+    const fixedResult = calcResult.toFixed(2);
+    setFixed(fixedResult);
   };
 
   const onInputChange = (e) => {
     setInput(e.target.value);
   };
-
-  const onSelectChange = (e) => {
-    setCurrency(e.target.value);
-    console.log("TARGET VALUE", e.target.value);
-  };
-
-  // const calculation = () => {
-  //   list.filter((el) => {
-  //     el.code === currency;
-  //   });
-  //   console.log(el.code);
-  // };
 
   return (
     <>
@@ -50,7 +36,7 @@ export const Currencies = () => {
         placeholder="PLN value"
         onChange={onInputChange}
       />
-      <select className="section__select" onChange={onSelectChange}>
+      <select className="section__select" ref={selectRef}>
         <option value="EUR">EUR</option>
         <option value="USD">USD</option>
         <option value="CHF">CHF</option>
@@ -59,7 +45,7 @@ export const Currencies = () => {
         Przelicz
       </button>
       <p className="section__p">TO</p>
-      <span className="section__span">{calc}</span>
+      <span className="section__span">{fixed} PLN</span>
     </>
   );
 };
