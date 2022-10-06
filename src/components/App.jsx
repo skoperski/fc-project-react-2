@@ -1,5 +1,6 @@
+// import { Currencies } from "./Currencies";
+import { Currencies } from "./Currencies";
 import { Header } from "./Header";
-import { Section } from "./Section";
 
 function App() {
   return (
@@ -7,7 +8,7 @@ function App() {
       <Header />
       <section className="wrapper" id="section">
         <div className="section__div">
-          <Section />
+          <Currencies />
         </div>
       </section>
     </>
