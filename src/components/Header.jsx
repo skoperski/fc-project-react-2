@@ -5,7 +5,7 @@ export const Header = () => {
     <header className="wrapper">
       <div className="app__header">
         <div className="app__logo">
-          <img src="././public/budget.png" />
+          <img src="budget.png" />
         </div>
         <div className="header__content">
           <p>Przelicznik walut</p>
