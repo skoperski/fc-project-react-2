@@ -1,15 +1,18 @@
 import { fetchApi } from "../services/NBPapi";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Currencies = () => {
-  const [list, setList] = useState();
-  const [input, setInput] = useState();
+  const [list, setList] = useState([]);
+  const [input, setInput] = useState(0);
   const [fixed, setFixed] = useState();
+  const [loader, setLoader] = useState();
 
   useEffect(() => {
+    setLoader("loader");
     fetchApi().then((response) => {
       const currencyList = response.data[0].rates;
       setList(currencyList);
+      setLoader("hide-loader");
       setFixed(0);
     });
   }, []);
@@ -30,22 +33,25 @@ export const Currencies = () => {
 
   return (
     <>
-      <input
-        type="number"
-        className="section__input"
-        placeholder="PLN value"
-        onChange={onInputChange}
-      />
-      <select className="section__select" ref={selectRef}>
-        <option value="EUR">EUR</option>
-        <option value="USD">USD</option>
-        <option value="CHF">CHF</option>
-      </select>
-      <button className="section__button" onClick={handleClick}>
-        Przelicz
-      </button>
-      <p className="section__p">TO</p>
-      <span className="section__span">{fixed} PLN</span>
+      <div className="section__div">
+        <input
+          type="number"
+          className="section__input"
+          placeholder="PLN value"
+          onChange={onInputChange}
+        />
+        <select className="section__select" ref={selectRef}>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="CHF">CHF</option>
+        </select>
+        <button className="section__button" onClick={handleClick}>
+          Przelicz
+        </button>
+        <p className="section__p">TO</p>
+        <span className="section__span">{fixed} PLN</span>
+      </div>
+      <div className={loader}></div>
     </>
   );
 };

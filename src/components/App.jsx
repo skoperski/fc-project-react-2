@@ -1,4 +1,3 @@
-// import { Currencies } from "./Currencies";
 import { Currencies } from "./Currencies";
 import { Header } from "./Header";
 
@@ -7,9 +6,7 @@ function App() {
     <>
       <Header />
       <section className="wrapper" id="section">
-        <div className="section__div">
-          <Currencies />
-        </div>
+        <Currencies />
       </section>
     </>
   );
