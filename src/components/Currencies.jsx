@@ -5,16 +5,19 @@ export const Currencies = () => {
   const [list, setList] = useState([]);
   const [input, setInput] = useState(0);
   const [fixed, setFixed] = useState();
-  const [loader, setLoader] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setLoader("loader");
-    fetchApi().then((response) => {
-      const currencyList = response.data[0].rates;
-      setList(currencyList);
-      setLoader("hide-loader");
-      setFixed(0);
-    });
+    setIsLoading(true);
+    fetchApi()
+      .then((response) => {
+        const currencyList = response.data[0].rates;
+        setList(currencyList);
+        setLoader("hide-loader");
+        setFixed(0);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, []);
   const selectRef = useRef("");
 
@@ -51,7 +54,7 @@ export const Currencies = () => {
         <p className="section__p">TO</p>
         <span className="section__span">{fixed} PLN</span>
       </div>
-      <div className={loader}></div>
+      <div className={isLoading ? "loader" : "hide-loader"}></div>
     </>
   );
 };
