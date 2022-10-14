@@ -13,7 +13,6 @@ export const Currencies = () => {
       .then((response) => {
         const currencyList = response.data[0].rates;
         setList(currencyList);
-        setLoader("hide-loader");
         setFixed(0);
       })
       .catch((error) => console.log(error))
